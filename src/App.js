@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-const WeatherApp = () => {
+const App = () => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
 
@@ -56,4 +56,4 @@ const WeatherApp = () => {
   );
 };
 
-export default WeatherApp;
+export default App;
