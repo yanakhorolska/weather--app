@@ -56,14 +56,41 @@ const App = () => {
 
           {weatherData && (
             <div>
-              <h2>{weatherData.name}</h2>
-              <p>Temperature : {weatherData.main.temp}°C</p>
-              <p>Description : {weatherData.weather[0].description}</p>
+              <div className="cityName">
+                <h2 className="city">{weatherData.name}</h2>
+                <div
+                  style={{
+                    background: `url(
+                    "https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png"
+                  ) center no-repeat`,
+                    width: "70px",
+                    height: "70px",
+                  }}
+                ></div>
+              </div>
+              <p className="name-descr">
+                Temperature :{" "}
+                <span className="descr">{weatherData.main.temp}°C</span>
+              </p>
+              <p className="name-descr">
+                Feels like :{" "}
+                <span className="descr">{weatherData.main.feels_like}°C</span>
+              </p>
+              <p className="name-descr">
+                Description :{" "}
+                <span className="descr">
+                  {weatherData.weather[0].description}
+                </span>
+              </p>
+              <p className="name-descr">
+                Humidity :{" "}
+                <span className="descr">{weatherData.main.humidity}%</span>
+              </p>
             </div>
           )}
           {error && (
             <div>
-              <h2>Please, enter the correct city name</h2>
+              <h2 className="error">Please, enter the correct city name</h2>
             </div>
           )}
         </div>
