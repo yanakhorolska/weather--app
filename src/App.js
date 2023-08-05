@@ -5,14 +5,17 @@ import "./App.css";
 const App = () => {
   const [city, setCity] = useState("");
   const [weatherData, setWeatherData] = useState(null);
+  const [nextWeatherData, setNextWeatherData] = useState(null);
+
   const [error, setError] = useState(false);
 
   const apiKey = "0c0610d7593923374fcbd2bdb3babb71";
-  const apiUrl = "https://api.openweathermap.org/data/2.5/weather";
+  const apiUrlCurrent = "https://api.openweathermap.org/data/2.5/weather";
+  const apiUrlNext = "https://api.openweathermap.org/data/2.5/forecast";
 
   const getWeatherData = async () => {
     try {
-      const response = await axios.get(apiUrl, {
+      const response = await axios.get(apiUrlCurrent, {
         params: {
           q: city,
           appid: apiKey,
@@ -27,6 +30,27 @@ const App = () => {
     }
   };
 
+  const getNextWeatherData = async () => {
+    try {
+      const response = await axios.get(apiUrlNext, {
+        params: {
+          q: city,
+          appid: apiKey,
+          units: "metric",
+          cnt: "40",
+        },
+      });
+      setNextWeatherData(response.data);
+      console.log(response);
+      // const date1 = nextWeatherData.list[16].dt;
+      // console.log(date1);
+      setError(false);
+    } catch (error) {
+      setError(true);
+      setNextWeatherData(null);
+    }
+  };
+
   const handleCityChange = (event) => {
     setCity(event.target.value);
   };
@@ -34,7 +58,9 @@ const App = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     getWeatherData();
+    getNextWeatherData();
   };
+  const date = new Date();
 
   return (
     <div className="fon">
@@ -86,6 +112,88 @@ const App = () => {
                 Humidity :{" "}
                 <span className="descr">{weatherData.main.humidity}%</span>
               </p>
+            </div>
+          )}
+          {nextWeatherData && (
+            <div>
+              <div className="next-box">
+                <div className="next-day-box">
+                  <div className="next-day">
+                    {nextWeatherData.list[8].dt_txt.slice(8, 10)}-
+                    {nextWeatherData.list[8].dt_txt.slice(5, 7)} <br />
+                    {nextWeatherData.list[8].dt_txt.slice(0, 4)}
+                  </div>
+                  <p className="name-descr">
+                    {nextWeatherData.list[8].main.temp}°C
+                  </p>{" "}
+                  <div
+                    style={{
+                      background: `url(
+                    "https://openweathermap.org/img/wn/${nextWeatherData.list[8].weather[0].icon}@2x.png"
+                  ) center no-repeat`,
+                      width: "70px",
+                      height: "70px",
+                    }}
+                  ></div>
+                </div>
+                <div className="next-day-box">
+                  <div className="next-day">
+                    {nextWeatherData.list[16].dt_txt.slice(8, 10)}-
+                    {nextWeatherData.list[16].dt_txt.slice(5, 7)} <br />
+                    {nextWeatherData.list[16].dt_txt.slice(0, 4)}
+                  </div>
+                  <p className="name-descr">
+                    {nextWeatherData.list[16].main.temp}°C
+                  </p>
+                  <div
+                    style={{
+                      background: `url(
+                    "https://openweathermap.org/img/wn/${nextWeatherData.list[16].weather[0].icon}@2x.png"
+                  ) center no-repeat`,
+                      width: "70px",
+                      height: "70px",
+                    }}
+                  ></div>
+                </div>
+                <div className="next-day-box">
+                  <div className="next-day">
+                    {nextWeatherData.list[24].dt_txt.slice(8, 10)}-
+                    {nextWeatherData.list[24].dt_txt.slice(5, 7)} <br />
+                    {nextWeatherData.list[24].dt_txt.slice(0, 4)}
+                  </div>
+                  <p className="name-descr">
+                    {nextWeatherData.list[24].main.temp}°C
+                  </p>
+                  <div
+                    style={{
+                      background: `url(
+                    "https://openweathermap.org/img/wn/${nextWeatherData.list[24].weather[0].icon}@2x.png"
+                  ) center no-repeat`,
+                      width: "70px",
+                      height: "70px",
+                    }}
+                  ></div>
+                </div>
+                <div className="next-day-box">
+                  <div className="next-day">
+                    {nextWeatherData.list[32].dt_txt.slice(8, 10)}-
+                    {nextWeatherData.list[32].dt_txt.slice(5, 7)} <br />
+                    {nextWeatherData.list[32].dt_txt.slice(0, 4)}
+                  </div>
+                  <p className="name-descr">
+                    {nextWeatherData.list[32].main.temp}°C
+                  </p>
+                  <div
+                    style={{
+                      background: `url(
+                    "https://openweathermap.org/img/wn/${nextWeatherData.list[32].weather[0].icon}@2x.png"
+                  ) center no-repeat`,
+                      width: "70px",
+                      height: "70px",
+                    }}
+                  ></div>
+                </div>
+              </div>
             </div>
           )}
           {error && (
